@@ -5,8 +5,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:geolocator_test/pages/mainPage.dart';
 
-void main()
-{
+void main() {
     WidgetsFlutterBinding.ensureInitialized();
 
     debugPaintSizeEnabled = false;
@@ -14,29 +13,24 @@ void main()
     runApp(LocationApp());
 }
 
-class LocationApp extends StatefulWidget
-{
+class LocationApp extends StatefulWidget {
     @override
     _LocationAppState createState() => _LocationAppState();
 }
 
-class _LocationAppState extends State<LocationApp>
-{
+class _LocationAppState extends State<LocationApp> {
     @override
-    void initState()
-    {
+    void initState() {
         super.initState();
     }
 
     @override
-    void dispose()
-    {
+    void dispose() {
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context)
-    {
+    Widget build(BuildContext context) {
         return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: MainPage()

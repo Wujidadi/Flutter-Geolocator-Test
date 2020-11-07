@@ -6,14 +6,12 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:geolocator_test/helpers/references.dart';
 
-class MainPage extends StatefulWidget
-{
+class MainPage extends StatefulWidget {
     @override
     _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>
-{
+class _MainPageState extends State<MainPage> {
     StreamSubscription<Position> positionStream;
 
     String coordinates;
@@ -29,14 +27,11 @@ class _MainPageState extends State<MainPage>
 
     DateTime time;
 
-    Future<void> initPlatformState() async
-    {
+    Future<void> initPlatformState() async {
         // Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-        positionStream = getPositionStream(desiredAccuracy: LocationAccuracy.best).listen((Position _position)
-        {
-            setState(()
-            {
+        positionStream = getPositionStream(desiredAccuracy: LocationAccuracy.best).listen((Position _position) {
+            setState(() {
                 coordinates = _position == null ? 'Unknown' : _position.latitude.toString() + ', ' + _position.longitude.toString();
 
                 startLatitude = _position.latitude;
@@ -58,8 +53,7 @@ class _MainPageState extends State<MainPage>
     }
 
     /// 點擊返回鍵時跳出警告訊息框
-    Future<bool> backExitAlert(BuildContext context)
-    {
+    Future<bool> backExitAlert(BuildContext context) {
         /// 取消按鈕
         Widget cancelButton = FlatButton(
             child: Text('取消'),
@@ -78,14 +72,14 @@ class _MainPageState extends State<MainPage>
 
         /// 警告訊息框
         AlertDialog alert = AlertDialog(
-            title: Text('退出 Beacon Scanner'),
+            title: Text('退出 GeoLocator 測試'),
             titleTextStyle: TextStyle(
                 color: Colors.blue,
                 fontSize: 19,
                 fontWeight: FontWeight.bold
             ),
             titlePadding: EdgeInsets.fromLTRB(17.5, 12.5, 17.5, 12.5),
-            content: Text('確定離開 Beacon Scanner？'),
+            content: Text('確定離開？'),
             contentPadding: EdgeInsets.fromLTRB(17.5, 12.5, 17.5, 12.5),
             actions: <Widget>[
                 cancelButton,
@@ -102,37 +96,37 @@ class _MainPageState extends State<MainPage>
         );
     }
 
-    String coordinatesString()
-    {
-        if (startLongitude == null || startLatitude == null)
-        {
+    String coordinatesString() {
+        if (startLongitude == null || startLatitude == null) {
             return '';
         }
         return '經緯度：$startLongitude, $startLatitude';
     }
 
-    String distanceString()
-    {
-        if (distance == null)
-        {
+    String targetString() {
+        /* 取得當前經緯度座標才顯示目的地經緯度座標 */
+        if (startLongitude == null || startLatitude == null) {
+            return '';
+        }
+        return '目的地：$endLongitude, $endLatitude';
+    }
+
+    String distanceString() {
+        if (distance == null) {
             return '';
         }
         return '距離：$distance m';
     }
 
-    String bearingString()
-    {
-        if (bearing == null)
-        {
+    String bearingString() {
+        if (bearing == null) {
             return '';
         }
         return '方位：$bearing°';
     }
 
-    String timeString()
-    {
-        if (bearing == null)
-        {
+    String timeString() {
+        if (bearing == null) {
             return '';
         }
         return '時間：$time';
@@ -150,13 +144,12 @@ class _MainPageState extends State<MainPage>
     }
 
     @override
-    Widget build(BuildContext context)
-    {
+    Widget build(BuildContext context) {
         return WillPopScope(
             onWillPop: () async => backExitAlert(context),
             child: Scaffold(
                 appBar: AppBar(
-                    title: Text('GeoLocator測試'),
+                    title: Text('GeoLocator 測試'),
                     centerTitle: true
                 ),
                 body: Column(
@@ -165,7 +158,7 @@ class _MainPageState extends State<MainPage>
                             text: TextSpan(
                                 /* 預設樣式 */
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 15,
                                     color: Colors.grey
                                 ),
                                 children: <TextSpan>[
@@ -175,27 +168,28 @@ class _MainPageState extends State<MainPage>
                                             color: Colors.red
                                         )
                                     ),
-
                                     TextSpan(text: '\n'),
-
+                                    TextSpan(
+                                        text: targetString(),
+                                        style: TextStyle(
+                                            color: Colors.orange[700]
+                                        )
+                                    ),
+                                    TextSpan(text: '\n'),
                                     TextSpan(
                                         text: distanceString(),
                                         style: TextStyle(
                                             color: Colors.amberAccent[700]
                                         )
                                     ),
-
                                     TextSpan(text: '\n'),
-
                                     TextSpan(
                                         text: bearingString(),
                                         style: TextStyle(
                                             color: Colors.blue
                                         )
                                     ),
-
                                     TextSpan(text: '\n'),
-
                                     TextSpan(
                                         text: timeString(),
                                         style: TextStyle(
